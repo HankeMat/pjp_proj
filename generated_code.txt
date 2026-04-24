@@ -1,0 +1,34 @@
+push I 0
+save i
+push I 0
+save sum
+push I 1
+save i
+load i
+pop
+push I 0
+save sum
+load sum
+pop
+label 1
+load i
+push I 11
+lt I
+fjmp 2
+load sum
+load i
+add I
+save sum
+load sum
+pop
+load i
+push I 1
+add I
+save i
+load i
+pop
+jmp 1
+label 2
+push S "Sum of 1..10 is: "
+load sum
+print 2

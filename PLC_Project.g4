@@ -1,0 +1,78 @@
+grammar PLC_Project;
+
+/*
+ * Parser Rules
+ */
+
+program : (statement)* EOF ;
+
+statement
+    : ';'                                               # emptyStatement
+    | type idList ';'                                   # declarationStatement
+    | expression ';'                                    # expressionStatement
+    | 'read' idList ';'                                 # readStatement
+    | 'write' exprList ';'                              # writeStatement
+    | '{' statement* '}'                                # blockStatement
+    | 'if' '(' expression ')' statement ('else' statement)? # ifStatement
+    | 'while' '(' expression ')' statement              # whileStatement
+    ;
+
+type
+    : INT_KW
+    | FLOAT_KW
+    | BOOL_KW
+    | STRING_KW
+    ;
+
+idList : ID (',' ID)* ;
+
+exprList : expression (',' expression)* ;
+
+expression
+    : '!' expression                                    # logicalNotExpr
+    | '-' expression                                    # unaryMinusExpr
+    | expression op=('*' | '/' | '%') expression        # multiplicativeExpr
+    | expression op=('+' | '-' | '.') expression        # additiveExpr
+    | expression op=('<' | '>') expression              # relationalExpr
+    | expression op=('==' | '!=') expression            # equalityExpr
+    | expression '&&' expression                        # logicalAndExpr
+    | expression '||' expression                        # logicalOrExpr
+    | <assoc=right> ID '=' expression                   # assignmentExpr
+    | '(' expression ')'                                # parenthesisExpr
+    | literal                                           # literalExpr
+    | ID                                                # identifierExpr
+    ;
+
+literal
+    : INT
+    | FLOAT
+    | BOOL
+    | STRING
+    ;
+
+/*
+ * Lexer Rules
+ */
+
+// Keywords
+READ    : 'read' ;
+WRITE   : 'write' ;
+IF      : 'if' ;
+ELSE    : 'else' ;
+WHILE   : 'while' ;
+INT_KW  : 'int' ;
+FLOAT_KW: 'float' ;
+BOOL_KW : 'bool' ;
+STRING_KW: 'string' ;
+
+// Literals
+BOOL    : 'true' | 'false' ;
+INT     : [0-9]+ ;
+FLOAT   : [0-9]+ '.' [0-9]* | '.' [0-9]+ ;
+STRING  : '"' (~["\r\n])* '"' ; 
+
+ID      : [a-zA-Z] [a-zA-Z0-9]* ;
+
+// Whitespace and comments
+WS      : [ \t\r\n]+ -> skip ;
+COMMENT : '//' ~[\r\n]* -> skip ;
