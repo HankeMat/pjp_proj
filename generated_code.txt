@@ -20,6 +20,8 @@ push S ""
 save s2
 push I 0
 save f
+push F 0.0
+save testTer
 push S "Zadejte cele cislo (i), desetinne (x), bool (b1) a retezec (s1):"
 print 1
 read I
@@ -204,6 +206,22 @@ load i
 push I 1
 add I
 pop
+load i
+push I 10
+gt I
+fjmp 7
+push F 1.1
+jmp 8
+label 7
+push I 2
+itof
+label 8
+save testTer
+load testTer
+pop
+push S "Ternarni operater vysledek:"
+load testTer
+print 2
 push S "Test dokoncen:"
 load s2
 push S " "

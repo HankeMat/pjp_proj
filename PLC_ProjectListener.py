@@ -125,21 +125,48 @@ class PLC_ProjectListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PLC_ProjectParser#logicalNotExpr.
-    def enterLogicalNotExpr(self, ctx:PLC_ProjectParser.LogicalNotExprContext):
-        pass
-
-    # Exit a parse tree produced by PLC_ProjectParser#logicalNotExpr.
-    def exitLogicalNotExpr(self, ctx:PLC_ProjectParser.LogicalNotExprContext):
-        pass
-
-
     # Enter a parse tree produced by PLC_ProjectParser#assignmentExpr.
     def enterAssignmentExpr(self, ctx:PLC_ProjectParser.AssignmentExprContext):
         pass
 
     # Exit a parse tree produced by PLC_ProjectParser#assignmentExpr.
     def exitAssignmentExpr(self, ctx:PLC_ProjectParser.AssignmentExprContext):
+        pass
+
+
+    # Enter a parse tree produced by PLC_ProjectParser#logicalAndExpr.
+    def enterLogicalAndExpr(self, ctx:PLC_ProjectParser.LogicalAndExprContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#logicalAndExpr.
+    def exitLogicalAndExpr(self, ctx:PLC_ProjectParser.LogicalAndExprContext):
+        pass
+
+
+    # Enter a parse tree produced by PLC_ProjectParser#additiveExpr.
+    def enterAdditiveExpr(self, ctx:PLC_ProjectParser.AdditiveExprContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#additiveExpr.
+    def exitAdditiveExpr(self, ctx:PLC_ProjectParser.AdditiveExprContext):
+        pass
+
+
+    # Enter a parse tree produced by PLC_ProjectParser#relationalExpr.
+    def enterRelationalExpr(self, ctx:PLC_ProjectParser.RelationalExprContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#relationalExpr.
+    def exitRelationalExpr(self, ctx:PLC_ProjectParser.RelationalExprContext):
+        pass
+
+
+    # Enter a parse tree produced by PLC_ProjectParser#logicalNotExpr.
+    def enterLogicalNotExpr(self, ctx:PLC_ProjectParser.LogicalNotExprContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#logicalNotExpr.
+    def exitLogicalNotExpr(self, ctx:PLC_ProjectParser.LogicalNotExprContext):
         pass
 
 
@@ -161,12 +188,12 @@ class PLC_ProjectListener(ParseTreeListener):
         pass
 
 
-    # Enter a parse tree produced by PLC_ProjectParser#logicalAndExpr.
-    def enterLogicalAndExpr(self, ctx:PLC_ProjectParser.LogicalAndExprContext):
+    # Enter a parse tree produced by PLC_ProjectParser#ternaryExpr.
+    def enterTernaryExpr(self, ctx:PLC_ProjectParser.TernaryExprContext):
         pass
 
-    # Exit a parse tree produced by PLC_ProjectParser#logicalAndExpr.
-    def exitLogicalAndExpr(self, ctx:PLC_ProjectParser.LogicalAndExprContext):
+    # Exit a parse tree produced by PLC_ProjectParser#ternaryExpr.
+    def exitTernaryExpr(self, ctx:PLC_ProjectParser.TernaryExprContext):
         pass
 
 
@@ -176,24 +203,6 @@ class PLC_ProjectListener(ParseTreeListener):
 
     # Exit a parse tree produced by PLC_ProjectParser#literalExpr.
     def exitLiteralExpr(self, ctx:PLC_ProjectParser.LiteralExprContext):
-        pass
-
-
-    # Enter a parse tree produced by PLC_ProjectParser#additiveExpr.
-    def enterAdditiveExpr(self, ctx:PLC_ProjectParser.AdditiveExprContext):
-        pass
-
-    # Exit a parse tree produced by PLC_ProjectParser#additiveExpr.
-    def exitAdditiveExpr(self, ctx:PLC_ProjectParser.AdditiveExprContext):
-        pass
-
-
-    # Enter a parse tree produced by PLC_ProjectParser#relationalExpr.
-    def enterRelationalExpr(self, ctx:PLC_ProjectParser.RelationalExprContext):
-        pass
-
-    # Exit a parse tree produced by PLC_ProjectParser#relationalExpr.
-    def exitRelationalExpr(self, ctx:PLC_ProjectParser.RelationalExprContext):
         pass
 
 

@@ -162,7 +162,7 @@ class CodeGenerator(PLC_ProjectVisitor):
         l_end = self.new_label()
         
         self.visit(ctx.expression())
-        self.add_instr(f"fjmp {l_else}") # Skoč na else, pokud je podmínka false
+        self.add_instr(f"fjmp {l_else}") # Jump to else if condition is false
         self.visit(ctx.statement(0))
         self.add_instr(f"jmp {l_end}")
         self.add_instr(f"label {l_else}")
@@ -170,6 +170,22 @@ class CodeGenerator(PLC_ProjectVisitor):
             self.visit(ctx.statement(1))
         self.add_instr(f"label {l_end}")
         return None
+    
+    def visitTernaryExpr(self, ctx):
+        res_type = self.node_types[ctx]
+        l_else = self.new_label()
+        l_end = self.new_label()
+        
+        self.visit(ctx.expression(0))
+        self.add_instr(f"fjmp {l_else}")    # Jump to else if condition is false
+        
+        self.visit_and_cast(ctx.expression(1),res_type)
+        self.add_instr(f"jmp {l_end}")      # Jump to end
+
+        self.add_instr(f"label {l_else}")   # else
+        self.visit_and_cast(ctx.expression(2), res_type)
+        self.add_instr(f"label {l_end}")    # End
+        return res_type
 
     def visitWhileStatement(self, ctx):
         l_start = self.new_label()

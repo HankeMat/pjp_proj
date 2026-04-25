@@ -74,13 +74,28 @@ class PLC_ProjectVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLC_ProjectParser#logicalNotExpr.
-    def visitLogicalNotExpr(self, ctx:PLC_ProjectParser.LogicalNotExprContext):
+    # Visit a parse tree produced by PLC_ProjectParser#assignmentExpr.
+    def visitAssignmentExpr(self, ctx:PLC_ProjectParser.AssignmentExprContext):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLC_ProjectParser#assignmentExpr.
-    def visitAssignmentExpr(self, ctx:PLC_ProjectParser.AssignmentExprContext):
+    # Visit a parse tree produced by PLC_ProjectParser#logicalAndExpr.
+    def visitLogicalAndExpr(self, ctx:PLC_ProjectParser.LogicalAndExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PLC_ProjectParser#additiveExpr.
+    def visitAdditiveExpr(self, ctx:PLC_ProjectParser.AdditiveExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PLC_ProjectParser#relationalExpr.
+    def visitRelationalExpr(self, ctx:PLC_ProjectParser.RelationalExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PLC_ProjectParser#logicalNotExpr.
+    def visitLogicalNotExpr(self, ctx:PLC_ProjectParser.LogicalNotExprContext):
         return self.visitChildren(ctx)
 
 
@@ -94,23 +109,13 @@ class PLC_ProjectVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
-    # Visit a parse tree produced by PLC_ProjectParser#logicalAndExpr.
-    def visitLogicalAndExpr(self, ctx:PLC_ProjectParser.LogicalAndExprContext):
+    # Visit a parse tree produced by PLC_ProjectParser#ternaryExpr.
+    def visitTernaryExpr(self, ctx:PLC_ProjectParser.TernaryExprContext):
         return self.visitChildren(ctx)
 
 
     # Visit a parse tree produced by PLC_ProjectParser#literalExpr.
     def visitLiteralExpr(self, ctx:PLC_ProjectParser.LiteralExprContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by PLC_ProjectParser#additiveExpr.
-    def visitAdditiveExpr(self, ctx:PLC_ProjectParser.AdditiveExprContext):
-        return self.visitChildren(ctx)
-
-
-    # Visit a parse tree produced by PLC_ProjectParser#relationalExpr.
-    def visitRelationalExpr(self, ctx:PLC_ProjectParser.RelationalExprContext):
         return self.visitChildren(ctx)
 
 

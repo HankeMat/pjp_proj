@@ -190,6 +190,24 @@ class TypeChecker(PLC_ProjectVisitor):
         if ctx.ELSE():
             self.visit(ctx.statement(1))
         return None
+    
+    def visitTernaryExpr(self, ctx):
+        cond_type = self.visit(ctx.expression(0))
+        if cond_type != 'B':
+            self.report_error(ctx.expression(0), "Podmínka musí být 'bool'.")
+
+        t1 = self.visit(ctx.expression(1))
+        t2 = self.visit(ctx.expression(2))
+
+        if t1 == t2:
+            self.node_types[ctx] = t1
+            return t1
+        elif (t1 == 'I' and t2 == 'F') or (t1 == 'F' and t2 == 'I'):
+            self.node_types[ctx] = 'F'
+            return 'F'
+        else:
+            self.report_error(ctx, "Větve ternárního operátoru mají nekompatibilní typy.")
+            return 'ERROR'
 
     def visitWhileStatement(self, ctx):
         cond_type = self.visit(ctx.expression())

@@ -62,4 +62,8 @@ for (f = 0; f < 5; f = f + 1) {
 // 8. Test odstraneni hodnoty ze zasobniku (pop)
 i + 1; // Vysledek se nevyuzije, zavola se pop
 
+float testTer;
+testTer = (i > 10) ? 1.1 : 2;
+write "Ternarni operater vysledek:", testTer;
+
 write "Test dokoncen:", s2, " ", b2;

@@ -38,6 +38,7 @@ expression
     | expression op=('==' | '!=') expression            # equalityExpr
     | expression '&&' expression                        # logicalAndExpr
     | expression '||' expression                        # logicalOrExpr
+    | expression '?' expression TER_ELSE expression     # ternaryExpr
     | <assoc=right> ID '=' expression                   # assignmentExpr
     | '(' expression ')'                                # parenthesisExpr
     | literal                                           # literalExpr
@@ -60,6 +61,7 @@ READ    : 'read' ;
 WRITE   : 'write' ;
 IF      : 'if' ;
 ELSE    : 'else' ;
+TER_ELSE: ':' ;
 WHILE   : 'while' ;
 FOR     : 'for' ;
 INT_KW  : 'int' ;
