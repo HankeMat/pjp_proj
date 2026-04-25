@@ -16,6 +16,8 @@ statement
     | 'if' '(' expression ')' statement ('else' statement)?             # ifStatement
     | 'while' '(' expression ')' statement                              # whileStatement
     | 'for' '(' expression ';' expression ';' expression ')' statement  # forStatement
+    | 'fopen' expression ',' expression ';'                             # fopenStatement
+    | 'fappend' expression ',' exprList ';'                             # fappendStatement
     ;
 
 type
@@ -23,6 +25,7 @@ type
     | FLOAT_KW
     | BOOL_KW
     | STRING_KW
+    | FILE_KW
     ;
 
 idList : ID (',' ID)* ;
@@ -69,6 +72,8 @@ INT_KW  : 'int' ;
 FLOAT_KW: 'float' ;
 BOOL_KW : 'bool' ;
 STRING_KW: 'string' ;
+FILE_KW : 'FILE' ;
+FOPEN : 'fopen' ;
 
 // Literals
 BOOL    : 'true' | 'false' ;

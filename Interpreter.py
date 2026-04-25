@@ -31,7 +31,9 @@ class Interpreter:
                 if t == 'I': val = int(val_str)
                 elif t == 'F': val = float(val_str)
                 elif t == 'B': val = (val_str.lower() == 'true')
-                elif t == 'S': val = val_str.strip('"')
+                elif t == 'S': 
+                    val = val_str.strip('"')
+                    val = val.encode('utf-8').decode('unicode_escape')
                 self.stack.append(val)
             
             elif cmd == 'get_char':
@@ -42,6 +44,21 @@ class Interpreter:
                 else:
                     print(f"Chyba: Index {idx} je mimo rozsah stringu (delka {len(string)}).")
                     sys.exit(1)
+
+            elif cmd == 'fopen':
+                file_name = self.stack.pop()
+                f = open(file_name, "a+")
+                self.stack.append(f)
+
+            elif cmd == 'fappend':
+                count = int(parts[1])
+                vals = []
+                for _ in range(count):
+                    vals.append(self.stack.pop())
+
+                f = vals[count-1]
+                f.write("".join(map(str, reversed(vals[:-1]))))
+                f.flush()
 
             # POP: odstraní hodnotu z vrcholu zásobníku
             elif cmd == 'pop':

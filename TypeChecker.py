@@ -15,7 +15,7 @@ class TypeChecker(PLC_ProjectVisitor):
     # Variable declaration: e.g. int a, b;
     def visitDeclarationStatement(self, ctx):
         var_type_str = ctx.type_().getText()
-        type_map = {'int': 'I', 'float': 'F', 'bool': 'B', 'string': 'S'}
+        type_map = {'int': 'I', 'float': 'F', 'bool': 'B', 'string': 'S', 'FILE': 'FI'}
         var_type = type_map.get(var_type_str)
         for id_node in ctx.idList().ID():
             name = id_node.getText()
@@ -248,3 +248,21 @@ class TypeChecker(PLC_ProjectVisitor):
         
         self.node_types[ctx] = 'S'
         return 'S'
+    
+    def visitFopenStatement(self, ctx):
+        if self.visit(ctx.expression(0)) != 'FI':
+            self.report_error(ctx, "Soubor lze otevřít pouze do proměnné typu FILE.")
+            return 'ERROR'
+        if self.visit(ctx.expression(1)) != 'S':
+            self.report_error(ctx, "Název souboru musí být STRING.")
+            return 'ERROR'
+        
+        return None
+    
+    def visitFappendStatement(self, ctx):
+        if self.visit(ctx.expression()) != 'FI':
+            self.report_error(ctx, "První parametr musí být typu FILE.")
+            return 'ERROR'
+        for expr in ctx.exprList().expression():
+            self.visit(expr)
+        return None

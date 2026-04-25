@@ -71,4 +71,10 @@ string ind;
 ind = "Abeceda";
 write "Pismena ze stringu 'Abeceda' na pozici 0 a ", i , ":", ind[0], " ", ind[i];
 
+// 10. Test FILE operaci (fopen, fappend)
+FILE soubor;
+fopen soubor, "vystup_testu.txt";
+fappend soubor, "Vysledek testu: ", s2, ", i=", i, ", b2=", b2, "\n";
+write "Zapis do souboru 'vystup_testu.txt' hotov.";
+
 write "Test dokoncen:", s2, " ", b2;

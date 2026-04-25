@@ -23,6 +23,7 @@ class CodeGenerator(PLC_ProjectVisitor):
             elif var_type == 'F': self.add_instr("push F 0.0")
             elif var_type == 'B': self.add_instr("push B false")
             elif var_type == 'S': self.add_instr('push S ""')
+            elif var_type == 'FI': self.add_instr('push FI 0')
             self.add_instr(f"save {name}")
         
         for stmt in ctx.statement():
@@ -223,3 +224,23 @@ class CodeGenerator(PLC_ProjectVisitor):
         self.visit(ctx.expression(1))
         self.add_instr("get_char")
         return 'S'
+
+    def visitFopenStatement(self, ctx):
+        self.visit(ctx.expression(1))
+        self.add_instr("fopen")
+        var_name = ctx.expression(0).getText()
+        self.add_instr(f"save {var_name}")
+        return None
+    
+    def visitFappendStatement(self, ctx):
+        # 1. Musíme loadnout tu proměnnou typu FILE (první výraz)
+        self.visit(ctx.expression())
+        
+        # 2. Naskládat všechny hodnoty z exprListu
+        exprs = ctx.exprList().expression()
+        for expr in exprs:
+            self.visit(expr)
+            
+        # 3. fappend (n = 1 za soubor + počet hodnot v exprListu)
+        self.add_instr(f"fappend {len(exprs) + 1}")
+        return None

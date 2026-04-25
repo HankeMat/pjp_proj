@@ -98,6 +98,24 @@ class PLC_ProjectListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PLC_ProjectParser#fopenStatement.
+    def enterFopenStatement(self, ctx:PLC_ProjectParser.FopenStatementContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#fopenStatement.
+    def exitFopenStatement(self, ctx:PLC_ProjectParser.FopenStatementContext):
+        pass
+
+
+    # Enter a parse tree produced by PLC_ProjectParser#fappendStatement.
+    def enterFappendStatement(self, ctx:PLC_ProjectParser.FappendStatementContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#fappendStatement.
+    def exitFappendStatement(self, ctx:PLC_ProjectParser.FappendStatementContext):
+        pass
+
+
     # Enter a parse tree produced by PLC_ProjectParser#type.
     def enterType(self, ctx:PLC_ProjectParser.TypeContext):
         pass

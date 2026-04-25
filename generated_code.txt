@@ -24,6 +24,8 @@ push F 0.0
 save testTer
 push S ""
 save ind
+push FI 0
+save soubor
 push S "Zadejte cele cislo (i), desetinne (x), bool (b1) a retezec (s1):"
 print 1
 read I
@@ -239,6 +241,20 @@ load ind
 load i
 get_char
 print 6
+push S "vystup_testu.txt"
+fopen
+save soubor
+load soubor
+push S "Vysledek testu: "
+load s2
+push S ", i="
+load i
+push S ", b2="
+load b2
+push S "\n"
+fappend 8
+push S "Zapis do souboru 'vystup_testu.txt' hotov."
+print 1
 push S "Test dokoncen:"
 load s2
 push S " "

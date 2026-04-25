@@ -59,6 +59,16 @@ class PLC_ProjectVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PLC_ProjectParser#fopenStatement.
+    def visitFopenStatement(self, ctx:PLC_ProjectParser.FopenStatementContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PLC_ProjectParser#fappendStatement.
+    def visitFappendStatement(self, ctx:PLC_ProjectParser.FappendStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PLC_ProjectParser#type.
     def visitType(self, ctx:PLC_ProjectParser.TypeContext):
         return self.visitChildren(ctx)
