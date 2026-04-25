@@ -1,10 +1,9 @@
 from PLC_ProjectVisitor import PLC_ProjectVisitor
 from PLC_ProjectParser import PLC_ProjectParser
 
-# Sémantický analyzátor - kontroluje datové typy a deklarace proměnných
 class TypeChecker(PLC_ProjectVisitor):
     def __init__(self):
-        self.symbol_table = {} # Tabulka symbolů: název_proměnné -> typ (I, F, B, S)
+        self.symbol_table = {} # Symbol table: variable_name -> type (I, F, B, S)
         self.node_types = {}   # Pomocná tabulka pro uložení výsledného typu každého výrazu (pro generátor)
         self.errors = []
 
@@ -13,7 +12,7 @@ class TypeChecker(PLC_ProjectVisitor):
         column = ctx.start.column
         self.errors.append(f"{line}:{column} - {message}")
 
-    # Deklarace proměnných: např. int a, b;
+    # Variable declaration: e.g. int a, b;
     def visitDeclarationStatement(self, ctx):
         var_type_str = ctx.type_().getText()
         type_map = {'int': 'I', 'float': 'F', 'bool': 'B', 'string': 'S'}
@@ -196,6 +195,15 @@ class TypeChecker(PLC_ProjectVisitor):
         cond_type = self.visit(ctx.expression())
         if cond_type != 'B':
             self.report_error(ctx.expression(), "Podmínka ve 'while' musí být 'bool'.")
+        self.visit(ctx.statement())
+        return None
+    
+    def visitForStatement(self, ctx):
+        self.visit(ctx.expression(0))
+        cond_type = self.visit(ctx.expression(1))
+        self.visit(ctx.expression(2))
+        if cond_type != 'B':
+            self.report_error(ctx.expression(1), "Podmínka ve 'for' musí být 'bool'.")
         self.visit(ctx.statement())
         return None
 

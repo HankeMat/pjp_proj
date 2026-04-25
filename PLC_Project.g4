@@ -7,14 +7,15 @@ grammar PLC_Project;
 program : (statement)* EOF ;
 
 statement
-    : ';'                                               # emptyStatement
-    | type idList ';'                                   # declarationStatement
-    | expression ';'                                    # expressionStatement
-    | 'read' idList ';'                                 # readStatement
-    | 'write' exprList ';'                              # writeStatement
-    | '{' statement* '}'                                # blockStatement
-    | 'if' '(' expression ')' statement ('else' statement)? # ifStatement
-    | 'while' '(' expression ')' statement              # whileStatement
+    : ';'                                                               # emptyStatement
+    | type idList ';'                                                   # declarationStatement
+    | expression ';'                                                    # expressionStatement
+    | 'read' idList ';'                                                 # readStatement
+    | 'write' exprList ';'                                              # writeStatement
+    | '{' statement* '}'                                                # blockStatement
+    | 'if' '(' expression ')' statement ('else' statement)?             # ifStatement
+    | 'while' '(' expression ')' statement                              # whileStatement
+    | 'for' '(' expression ';' expression ';' expression ')' statement  # forStatement
     ;
 
 type
@@ -60,6 +61,7 @@ WRITE   : 'write' ;
 IF      : 'if' ;
 ELSE    : 'else' ;
 WHILE   : 'while' ;
+FOR     : 'for' ;
 INT_KW  : 'int' ;
 FLOAT_KW: 'float' ;
 BOOL_KW : 'bool' ;

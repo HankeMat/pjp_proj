@@ -54,6 +54,11 @@ while (k < 3) {
     k = k + 1;
 }
 
+int f;
+for (f = 0; f < 5; f = f + 1) {
+    write "For cyklus - iterace:", f;
+}
+
 // 8. Test odstraneni hodnoty ze zasobniku (pop)
 i + 1; // Vysledek se nevyuzije, zavola se pop
 

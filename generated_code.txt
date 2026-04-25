@@ -18,6 +18,8 @@ push S ""
 save s1
 push S ""
 save s2
+push I 0
+save f
 push S "Zadejte cele cislo (i), desetinne (x), bool (b1) a retezec (s1):"
 print 1
 read I
@@ -178,6 +180,26 @@ load k
 pop
 jmp 3
 label 4
+push I 0
+save f
+load f
+pop
+label 5
+load f
+push I 5
+lt I
+fjmp 6
+push S "For cyklus - iterace:"
+load f
+print 2
+load f
+push I 1
+add I
+save f
+load f
+pop
+jmp 5
+label 6
 load i
 push I 1
 add I

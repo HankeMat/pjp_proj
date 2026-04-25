@@ -7,7 +7,7 @@ class CodeGenerator(PLC_ProjectVisitor):
         self.symbol_table = symbol_table # Tabulka symbolů z TypeCheckeru
         self.node_types = node_types     # Typy uzlů z TypeCheckeru
         self.instructions = []           # Seznam vygenerovaných instrukcí
-        self.label_count = 0             # Počítadlo pro unikátní návěstí
+        self.label_count = 0             # Counter for label
 
     def new_label(self):
         self.label_count += 1
@@ -175,10 +175,29 @@ class CodeGenerator(PLC_ProjectVisitor):
         l_start = self.new_label()
         l_end = self.new_label()
         
-        self.add_instr(f"label {l_start}")
+        self.add_instr(f"label {l_start}")  # Start
         self.visit(ctx.expression())
-        self.add_instr(f"fjmp {l_end}") # Skoč na konec, pokud je podmínka false
+        self.add_instr(f"fjmp {l_end}")     # Jump to the end if condition is false
         self.visit(ctx.statement())
         self.add_instr(f"jmp {l_start}")
-        self.add_instr(f"label {l_end}")
+        self.add_instr(f"label {l_end}")    # End
+        return None 
+    
+    def visitForStatement(self, ctx):
+        l_start = self.new_label()
+        l_end = self.new_label()
+        
+        self.visit(ctx.expression(0))       # Inicialization
+        self.add_instr("pop")               # Pop the result of the expression(0) - dont need it :)
+
+        self.add_instr(f"label {l_start}")  # Start
+        self.visit(ctx.expression(1))       # Condition
+        self.add_instr(f"fjmp {l_end}")     # Jump to the end if condition is false
+        self.visit(ctx.statement())         # Body
+
+        self.visit(ctx.expression(2))       # Iteration
+        self.add_instr("pop")               # Pop the result of the expression(2) - dont need it :)
+        
+        self.add_instr(f"jmp {l_start}")    # Jump to the start again
+        self.add_instr(f"label {l_end}")    # End
         return None

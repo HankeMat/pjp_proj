@@ -1,6 +1,6 @@
 import sys
 
-# Interpret zásobníkového kódu - Virtuální stroj (VM)
+# Interpret zásobníkového kódu
 class Interpreter:
     def __init__(self, instructions):
         # Očistíme instrukce od prázdných řádků
