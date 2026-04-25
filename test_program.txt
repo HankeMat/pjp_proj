@@ -1,8 +1,60 @@
-int i, sum;
-i = 1;
-sum = 0;
-while (i < 11) {
-    sum = sum + i;
-    i = i + 1;
+// Testovaci program pro PLC_Project
+// Obsahuje vsechny pozadovane instrukce:
+// add, sub, mul, div, mod, uminus, concat, and, or, gt, lt, eq, not, itof, push, pop, load, save, label, jmp, fjmp, print, read
+
+int i, j, k;
+float x, y, z;
+bool b1, b2;
+string s1, s2;
+
+// 1. Test cteni a zapisu (read T, print n, push T, save id)
+write "Zadejte cele cislo (i), desetinne (x), bool (b1) a retezec (s1):";
+read i, x, b1, s1;
+
+// 2. Test celociselne aritmetiky (add I, sub I, mul I, div I, mod, uminus I)
+j = 10;
+k = i + j;
+k = i - j;
+k = i * j;
+k = i / j;
+k = i % 3;
+k = -i;
+
+// 3. Test desetinne aritmetiky (add F, sub F, mul F, div F, uminus F)
+y = 2.5;
+z = x + y;
+z = x - y;
+z = x * y;
+z = x / y;
+z = -x;
+
+// 4. Test automatickeho pretypovani (itof)
+z = i + x;  // i se prevede na float
+z = 5;      // int literal se prevede na float pri prirazeni
+
+// 5. Test retezcu (concat, eq S)
+s2 = s1 . " - test";
+b2 = s1 == "konec";
+
+// 6. Test logiky a porovnavani (and, or, not, gt, lt, eq I/F)
+b2 = (i > 0) && (x < 100.0);
+b2 = b2 || (i == j);
+b2 = !b1;
+
+// 7. Test rizeni toku (label, jmp, fjmp)
+if (i > 10) {
+    write "i je vetsi nez 10";
+} else {
+    write "i je 10 nebo mene";
 }
-write "Sum of 1..10 is: ", sum;
+
+k = 0;
+while (k < 3) {
+    write "Iterace cyklu:", k;
+    k = k + 1;
+}
+
+// 8. Test odstraneni hodnoty ze zasobniku (pop)
+i + 1; // Vysledek se nevyuzije, zavola se pop
+
+write "Test dokoncen:", s2, b2;

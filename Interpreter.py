@@ -64,6 +64,12 @@ class Interpreter:
             elif cmd == 'mod':
                 r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l % r)
             
+            # Logické operace
+            elif cmd == 'and':
+                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l and r)
+            elif cmd == 'or':
+                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l or r)
+            
             # Unární operace
             elif cmd == 'uminus':
                 val = self.stack.pop(); self.stack.append(-val)
