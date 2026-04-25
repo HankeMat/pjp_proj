@@ -217,3 +217,9 @@ class CodeGenerator(PLC_ProjectVisitor):
         self.add_instr(f"jmp {l_start}")    # Jump to the start again
         self.add_instr(f"label {l_end}")    # End
         return None
+    
+    def visitIndexingExpr(self, ctx):
+        self.visit(ctx.expression(0))
+        self.visit(ctx.expression(1))
+        self.add_instr("get_char")
+        return 'S'

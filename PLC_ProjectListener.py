@@ -152,6 +152,15 @@ class PLC_ProjectListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PLC_ProjectParser#indexingExpr.
+    def enterIndexingExpr(self, ctx:PLC_ProjectParser.IndexingExprContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#indexingExpr.
+    def exitIndexingExpr(self, ctx:PLC_ProjectParser.IndexingExprContext):
+        pass
+
+
     # Enter a parse tree produced by PLC_ProjectParser#relationalExpr.
     def enterRelationalExpr(self, ctx:PLC_ProjectParser.RelationalExprContext):
         pass

@@ -66,4 +66,9 @@ float testTer;
 testTer = (i > 10) ? 1.1 : 2;
 write "Ternarni operater vysledek:", testTer;
 
+// 9. Test indexace stringu (indexingExpr, get_char)
+string ind;
+ind = "Abeceda";
+write "Pismena ze stringu 'Abeceda' na pozici 0 a ", i , ":", ind[0], " ", ind[i];
+
 write "Test dokoncen:", s2, " ", b2;

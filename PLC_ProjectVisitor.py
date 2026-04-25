@@ -89,6 +89,11 @@ class PLC_ProjectVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PLC_ProjectParser#indexingExpr.
+    def visitIndexingExpr(self, ctx:PLC_ProjectParser.IndexingExprContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PLC_ProjectParser#relationalExpr.
     def visitRelationalExpr(self, ctx:PLC_ProjectParser.RelationalExprContext):
         return self.visitChildren(ctx)

@@ -34,6 +34,15 @@ class Interpreter:
                 elif t == 'S': val = val_str.strip('"')
                 self.stack.append(val)
             
+            elif cmd == 'get_char':
+                idx = self.stack.pop()
+                string = self.stack.pop()
+                if 0 <= idx < len(string):
+                    self.stack.append(string[idx])
+                else:
+                    print(f"Chyba: Index {idx} je mimo rozsah stringu (delka {len(string)}).")
+                    sys.exit(1)
+
             # POP: odstraní hodnotu z vrcholu zásobníku
             elif cmd == 'pop':
                 self.stack.pop()

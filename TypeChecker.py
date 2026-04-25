@@ -236,3 +236,15 @@ class TypeChecker(PLC_ProjectVisitor):
         for expr in ctx.exprList().expression():
             self.visit(expr)
         return None
+
+    def visitIndexingExpr(self, ctx):
+        if self.visit(ctx.expression(0)) != 'S':
+            self.report_error(ctx, "Indexoval lze pouze STRING.")
+            return 'ERROR'
+        
+        if self.visit(ctx.expression(1)) != 'I':
+            self.report_error(ctx, "Index musí být typu INT.")
+            return 'ERROR'
+        
+        self.node_types[ctx] = 'S'
+        return 'S'

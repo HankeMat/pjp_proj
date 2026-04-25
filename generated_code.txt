@@ -22,6 +22,8 @@ push I 0
 save f
 push F 0.0
 save testTer
+push S ""
+save ind
 push S "Zadejte cele cislo (i), desetinne (x), bool (b1) a retezec (s1):"
 print 1
 read I
@@ -222,6 +224,21 @@ pop
 push S "Ternarni operater vysledek:"
 load testTer
 print 2
+push S "Abeceda"
+save ind
+load ind
+pop
+push S "Pismena ze stringu 'Abeceda' na pozici 0 a "
+load i
+push S ":"
+load ind
+push I 0
+get_char
+push S " "
+load ind
+load i
+get_char
+print 6
 push S "Test dokoncen:"
 load s2
 push S " "

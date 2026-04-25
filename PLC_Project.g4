@@ -39,6 +39,7 @@ expression
     | expression '&&' expression                        # logicalAndExpr
     | expression '||' expression                        # logicalOrExpr
     | expression '?' expression TER_ELSE expression     # ternaryExpr
+    | expression '[' expression ']'                     # indexingExpr
     | <assoc=right> ID '=' expression                   # assignmentExpr
     | '(' expression ')'                                # parenthesisExpr
     | literal                                           # literalExpr
