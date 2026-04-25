@@ -112,10 +112,10 @@ class Interpreter:
             # Vstup
             elif cmd == 'read':
                 t = parts[1]
-                val_str = input()
+                val_str = input().strip()
                 if t == 'I': val = int(val_str)
                 elif t == 'F': val = float(val_str)
-                elif t == 'B': val = (val_str.lower() == 'true')
+                elif t == 'B': val = val_str.lower() in ['true', '1']
                 elif t == 'S': val = val_str
                 self.stack.append(val)
             

@@ -1,4 +1,4 @@
-// Testovaci program pro PLC_Project
+// Testovaci program
 // Obsahuje vsechny pozadovane instrukce:
 // add, sub, mul, div, mod, uminus, concat, and, or, gt, lt, eq, not, itof, push, pop, load, save, label, jmp, fjmp, print, read
 
@@ -57,4 +57,4 @@ while (k < 3) {
 // 8. Test odstraneni hodnoty ze zasobniku (pop)
 i + 1; // Vysledek se nevyuzije, zavola se pop
 
-write "Test dokoncen:", s2, b2;
+write "Test dokoncen:", s2, " ", b2;
