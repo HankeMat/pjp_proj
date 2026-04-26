@@ -3,15 +3,14 @@ import sys
 # Interpret zásobníkového kódu
 class Interpreter:
     def __init__(self, instructions):
-        # Očistíme instrukce od prázdných řádků
         self.instructions = [line.strip() for line in instructions if line.strip()]
-        self.stack = []      # Zásobník pro výpočty
-        self.variables = {}  # Paměť pro proměnné
-        self.labels = {}     # Mapa návěstí: název_návěstí -> index_instrukce
-        self.pc = 0          # Program Counter - index aktuální instrukce
+        self.stack = []
+        self.variables = {}
+        self.labels = {}     # Label map: label_idx/name -> instruction_index
+        self.pc = 0          # current instruction index
         self._find_labels()
 
-    # První průchod: najdeme všechna návěstí (label), abychom věděli kam skákat
+    # search for all labels
     def _find_labels(self):
         for i, line in enumerate(self.instructions):
             parts = line.split()
@@ -24,18 +23,22 @@ class Interpreter:
             parts = instr.split()
             cmd = parts[0]
             
-            # PUSH: vloží hodnotu na zásobník
+            # pushes value at the top of the stack
             if cmd == 'push':
-                t = parts[1] # Typ (I, F, B, S)
-                val_str = " ".join(parts[2:]) # Hodnota (může obsahovat mezery v řetězcích)
-                if t == 'I': val = int(val_str)
-                elif t == 'F': val = float(val_str)
-                elif t == 'B': val = (val_str.lower() == 'true')
+                t = parts[1] # Type (I, F, B, S)
+                val_str = " ".join(parts[2:]) # joins all the other parts together splitted by space
+                if t == 'I': 
+                    val = int(val_str)
+                elif t == 'F': 
+                    val = float(val_str)
+                elif t == 'B': 
+                    val = (val_str.lower() == 'true')
                 elif t == 'S': 
                     val = val_str.strip('"')
                     val = val.encode('utf-8').decode('unicode_escape')
                 self.stack.append(val)
             
+            # gets one char fropm a string based on the index
             elif cmd == 'get_char':
                 idx = self.stack.pop()
                 string = self.stack.pop()
@@ -45,11 +48,13 @@ class Interpreter:
                     print(f"Chyba: Index {idx} je mimo rozsah stringu (delka {len(string)}).")
                     sys.exit(1)
 
+            # opens a file
             elif cmd == 'fopen':
                 file_name = self.stack.pop()
                 f = open(file_name, "a+")
                 self.stack.append(f)
 
+            # appends text to a file 
             elif cmd == 'fappend':
                 count = int(parts[1])
                 vals = []
@@ -60,26 +65,27 @@ class Interpreter:
                 f.write("".join(map(str, reversed(vals[:-1]))))
                 f.flush()
 
+            # reads the entire content of a file
             elif cmd == 'fread':
                 f = self.stack.pop()
                 f.seek(0)
                 self.stack.append(f.read())
 
-            # POP: removes the value from the top of the stack
+            # removes the value from the top of the stack
             elif cmd == 'pop':
                 self.stack.pop()
             
-            # LOAD: loads value from the variable to the stack
+            # loads value from the variable to the stack
             elif cmd == 'load':
                 name = parts[1]
                 self.stack.append(self.variables.get(name, 0))
             
-            # SAVE: saves value from top of the stack to the variable
+            # saves value from top of the stack to the variable
             elif cmd == 'save':
                 name = parts[1]
                 self.variables[name] = self.stack.pop()
             
-            # Binary operations
+            # Binary operations (a + b, a - b, ...)
             elif cmd == 'add':
                 r = self.stack.pop(); 
                 l = self.stack.pop(); 
@@ -103,7 +109,7 @@ class Interpreter:
                 l = self.stack.pop(); 
                 self.stack.append(l % r)
             
-            # Logické operace
+            # logicall operations
             elif cmd == 'and':
                 r = self.stack.pop(); 
                 l = self.stack.pop(); 
@@ -121,16 +127,18 @@ class Interpreter:
                 val = self.stack.pop(); 
                 self.stack.append(not val)
             
-
+            # concat
             elif cmd == 'concat':
                 r = self.stack.pop(); 
                 l = self.stack.pop(); 
                 self.stack.append(str(l) + str(r))
+
+            # itof
             elif cmd == 'itof':
                 val = self.stack.pop(); 
                 self.stack.append(float(val))
             
-            # Porovnávání
+            # Comparing
             elif cmd == 'gt':
                 r = self.stack.pop(); 
                 l = self.stack.pop(); 
@@ -144,26 +152,26 @@ class Interpreter:
                 l = self.stack.pop(); 
                 self.stack.append(l == r)
             
-            # Skoky
+            # Jumps
             elif cmd == 'jmp':
                 self.pc = self.labels[parts[1]]
-                continue # Přeskočíme standardní pc += 1 na konci cyklu
+                continue # have to skip program counter iteration at the end
             elif cmd == 'fjmp':
                 cond = self.stack.pop()
                 if not cond:
                     self.pc = self.labels[parts[1]]
                     continue
             
-            # Výstup
+            # print
             elif cmd == 'print':
                 n = int(parts[1])
                 vals = []
                 for _ in range(n):
                     vals.append(self.stack.pop())
-                # Hodnoty na zásobníku jsou v obráceném pořadí
+                # gotta reverse bcs the values are backwards on the stack
                 print("".join(map(str, reversed(vals))))
             
-            # Vstup
+            # read
             elif cmd == 'read':
                 t = parts[1]
                 val_str = input().strip()
@@ -173,7 +181,7 @@ class Interpreter:
                 elif t == 'S': val = val_str
                 self.stack.append(val)
             
-            # Návěstí (label) - interpret ho jen přeskočí
+            # label - interpretr just skips
             elif cmd == 'label':
                 pass
             
