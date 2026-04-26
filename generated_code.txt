@@ -1,34 +1,191 @@
 push I 0
 save i
 push I 0
-save sum
-push I 1
-save i
-load i
-pop
+save j
 push I 0
-save sum
-load sum
+save k
+push F 0.0
+save x
+push F 0.0
+save y
+push F 0.0
+save z
+push B false
+save b1
+push B false
+save b2
+push S ""
+save s1
+push S ""
+save s2
+push S ""
+save obsah
+push S "Zadejte cele cislo (i), desetinne (x), bool (b1) a retezec (s1):"
+print 1
+read I
+save i
+read F
+save x
+read B
+save b1
+read S
+save s1
+push I 10
+save j
+load j
 pop
-label 1
 load i
-push I 11
-lt I
-fjmp 2
-load sum
-load i
+load j
 add I
-save sum
-load sum
+save k
+load k
 pop
+load i
+load j
+sub I
+save k
+load k
+pop
+load i
+load j
+mul I
+save k
+load k
+pop
+load i
+load j
+div I
+save k
+load k
+pop
+load i
+push I 3
+mod
+save k
+load k
+pop
+load i
+uminus I
+save k
+load k
+pop
+push F 2.5
+save y
+load y
+pop
+load x
+load y
+add F
+save z
+load z
+pop
+load x
+load y
+sub F
+save z
+load z
+pop
+load x
+load y
+mul F
+save z
+load z
+pop
+load x
+load y
+div F
+save z
+load z
+pop
+load x
+uminus F
+save z
+load z
+pop
+load i
+itof
+load x
+add F
+save z
+load z
+pop
+push I 5
+itof
+save z
+load z
+pop
+load s1
+push S " - test"
+concat
+save s2
+load s2
+pop
+load s1
+push S "konec"
+eq S
+save b2
+load b2
+pop
+load i
+push I 0
+gt I
+load x
+push F 100.0
+lt F
+and
+save b2
+load b2
+pop
+load b2
+load i
+load j
+eq I
+or
+save b2
+load b2
+pop
+load b1
+not
+save b2
+load b2
+pop
+load i
+push I 10
+gt I
+fjmp 1
+push S "i je vetsi nez 10"
+print 1
+jmp 2
+label 1
+push S "i je 10 nebo mene"
+print 1
+label 2
+push I 0
+save k
+load k
+pop
+label 3
+load k
+push I 3
+lt I
+fjmp 4
+push S "Iterace cyklu:"
+load k
+print 2
+load k
+push I 1
+add I
+save k
+load k
+pop
+jmp 3
+label 4
 load i
 push I 1
 add I
-save i
-load i
 pop
-jmp 1
-label 2
-push S "Sum of 1..10 is: "
-load sum
-print 2
+push S "Test dokoncen:"
+load s2
+push S " "
+load b2
+print 4
