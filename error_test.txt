@@ -1,1 +1,36 @@
-int a; a = 5.5;
+// Deklarace
+int i, j;
+float x, y;
+bool b;
+string s;
+FILE f;
+
+// 1. Chyby v deklaracich
+int i;                  // CHYBA uz deklarovano
+
+// 2. Nedeklarovany promenny
+k = 10;                 // CHYBA k nebyla deklarovana
+read m;                 // CHYBA m nebyla deklarovana
+
+// 3. Aritmetika a typy
+i = s + 1;              // CHYBA + vyzaduje ciselny typy
+i = 10 % 2.5;           // CHYBA % chce int
+x = -s;                 // CHYBA unrani minus chce int nebo float
+
+// 4. Logika
+b = !i;                 // CHYBA negace chce bool
+b = i && b;             // CHYBA and chce bool
+b = (i > 0) || x;       // CHYBA or chec bool
+
+// 5. Porovnavani
+b = s < 10;             // CHYBA < vyzaduje ciselny tipi
+b = i == s;             // CHYBA == vyzaduje kompatibilni typy
+
+// 6. Prirazeni
+i = 3.14;               // CHYBA nejde priradit float do int
+s = 10;                 // CHYBA nejde priradit int do stringu
+f = 1;                  // CHYBA nejde priradit int do souboru
+
+// 7. Rizeni toku
+if (i) { write 1; }                 // CHYBA podminka v if musi byt bool
+while (x) { write 1; }              // CHYBA podminka ve while musi byt bool
