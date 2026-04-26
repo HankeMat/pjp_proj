@@ -3,7 +3,6 @@ int i, j;
 float x, y;
 bool b;
 string s;
-FILE f;
 
 // 1. Chyby v deklaracich
 int i;                  // CHYBA uz deklarovano
