@@ -60,61 +60,89 @@ class Interpreter:
                 f.write("".join(map(str, reversed(vals[:-1]))))
                 f.flush()
 
-            # POP: odstraní hodnotu z vrcholu zásobníku
+            elif cmd == 'fread':
+                f = self.stack.pop()
+                f.seek(0)
+                self.stack.append(f.read())
+
+            # POP: removes the value from the top of the stack
             elif cmd == 'pop':
                 self.stack.pop()
             
-            # LOAD: načte hodnotu proměnné na zásobník
+            # LOAD: loads value from the variable to the stack
             elif cmd == 'load':
                 name = parts[1]
                 self.stack.append(self.variables.get(name, 0))
             
-            # SAVE: uloží hodnotu z vrcholu zásobníku do proměnné
+            # SAVE: saves value from top of the stack to the variable
             elif cmd == 'save':
                 name = parts[1]
                 self.variables[name] = self.stack.pop()
             
-            # Binární operace
+            # Binary operations
             elif cmd == 'add':
-                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l + r)
+                r = self.stack.pop(); 
+                l = self.stack.pop(); 
+                self.stack.append(l + r)
             elif cmd == 'sub':
-                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l - r)
+                r = self.stack.pop(); 
+                l = self.stack.pop(); 
+                self.stack.append(l - r)
             elif cmd == 'mul':
-                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l * r)
+                r = self.stack.pop(); 
+                l = self.stack.pop(); 
+                self.stack.append(l * r)
             elif cmd == 'div':
                 r = self.stack.pop(); l = self.stack.pop()
                 if isinstance(l, int) and isinstance(r, int):
-                    self.stack.append(l // r) # Celočíselné dělení
+                    self.stack.append(l // r) # Int division
                 else:
-                    self.stack.append(l / r)
+                    self.stack.append(l / r)  # float division
             elif cmd == 'mod':
-                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l % r)
+                r = self.stack.pop(); 
+                l = self.stack.pop(); 
+                self.stack.append(l % r)
             
             # Logické operace
             elif cmd == 'and':
-                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l and r)
+                r = self.stack.pop(); 
+                l = self.stack.pop(); 
+                self.stack.append(l and r)
             elif cmd == 'or':
-                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l or r)
+                r = self.stack.pop(); 
+                l = self.stack.pop(); 
+                self.stack.append(l or r)
             
-            # Unární operace
+            # Unary ops (-5 , !true)
             elif cmd == 'uminus':
-                val = self.stack.pop(); self.stack.append(-val)
+                val = self.stack.pop(); 
+                self.stack.append(-val)
             elif cmd == 'not':
-                val = self.stack.pop(); self.stack.append(not val)
+                val = self.stack.pop(); 
+                self.stack.append(not val)
             
-            # Speciální operace
+
             elif cmd == 'concat':
-                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(str(l) + str(r))
+                r = self.stack.pop(); 
+                l = self.stack.pop(); 
+                self.stack.append(str(l) + str(r))
             elif cmd == 'itof':
-                val = self.stack.pop(); self.stack.append(float(val))
+                val = self.stack.pop(); 
+                self.stack.append(float(val))
             
             # Porovnávání
             elif cmd == 'gt':
-                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l > r)
+                r = self.stack.pop(); 
+                l = self.stack.pop(); 
+                self.stack.append(l > r)
             elif cmd == 'lt':
-                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l < r)
+                r = self.stack.pop(); 
+                l = self.stack.pop(); 
+                self.stack.append(l < r)
             elif cmd == 'eq':
-                r = self.stack.pop(); l = self.stack.pop(); self.stack.append(l == r)
+                r = self.stack.pop(); 
+                l = self.stack.pop(); 
+                self.stack.append(l == r)
             
             # Skoky
             elif cmd == 'jmp':

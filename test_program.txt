@@ -5,7 +5,7 @@
 int i, j, k;
 float x, y, z;
 bool b1, b2;
-string s1, s2;
+string s1, s2, obsah;
 
 // 1. Test cteni a zapisu (read T, print n, push T, save id)
 write "Zadejte cele cislo (i), desetinne (x), bool (b1) a retezec (s1):";
@@ -48,33 +48,41 @@ if (i > 10) {
     write "i je 10 nebo mene";
 }
 
+// 8. Test while cyklu
 k = 0;
 while (k < 3) {
     write "Iterace cyklu:", k;
     k = k + 1;
 }
 
+// 9. Test for cyklu
 int f;
 for (f = 0; f < 5; f = f + 1) {
     write "For cyklus - iterace:", f;
 }
 
-// 8. Test odstraneni hodnoty ze zasobniku (pop)
+// 10. Test odstraneni hodnoty ze zasobniku (pop)
 i + 1; // Vysledek se nevyuzije, zavola se pop
 
+// 11. Test ternarni operace
 float testTer;
 testTer = (i > 10) ? 1.1 : 2;
-write "Ternarni operater vysledek:", testTer;
+write "Ternarni operator vysledek:", testTer;
 
-// 9. Test indexace stringu (indexingExpr, get_char)
+// 12. Test indexace stringu (indexingExpr, get_char)
 string ind;
 ind = "Abeceda";
 write "Pismena ze stringu 'Abeceda' na pozici 0 a ", i , ":", ind[0], " ", ind[i];
 
-// 10. Test FILE operaci (fopen, fappend)
+// 13. Test FILE operaci (fopen, fappend, fread)
 FILE soubor;
 fopen soubor, "vystup_testu.txt";
 fappend soubor, "Vysledek testu: ", s2, ", i=", i, ", b2=", b2, "\n";
 write "Zapis do souboru 'vystup_testu.txt' hotov.";
 
+fread soubor, obsah;
+write "Precteny obsah ze souboru:";
+write obsah;
+
+// 14. Finish :)
 write "Test dokoncen:", s2, " ", b2;

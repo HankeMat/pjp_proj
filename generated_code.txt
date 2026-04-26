@@ -18,6 +18,8 @@ push S ""
 save s1
 push S ""
 save s2
+push S ""
+save obsah
 push I 0
 save f
 push F 0.0
@@ -223,7 +225,7 @@ label 8
 save testTer
 load testTer
 pop
-push S "Ternarni operater vysledek:"
+push S "Ternarni operator vysledek:"
 load testTer
 print 2
 push S "Abeceda"
@@ -254,6 +256,13 @@ load b2
 push S "\n"
 fappend 8
 push S "Zapis do souboru 'vystup_testu.txt' hotov."
+print 1
+load soubor
+fread
+save obsah
+push S "Precteny obsah ze souboru:"
+print 1
+load obsah
 print 1
 push S "Test dokoncen:"
 load s2

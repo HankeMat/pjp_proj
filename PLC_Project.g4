@@ -18,6 +18,7 @@ statement
     | 'for' '(' expression ';' expression ';' expression ')' statement  # forStatement
     | 'fopen' expression ',' expression ';'                             # fopenStatement
     | 'fappend' expression ',' exprList ';'                             # fappendStatement
+    | 'fread' expression ',' ID ';'                                     # freadStatement
     ;
 
 type

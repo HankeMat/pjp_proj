@@ -116,6 +116,15 @@ class PLC_ProjectListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PLC_ProjectParser#freadStatement.
+    def enterFreadStatement(self, ctx:PLC_ProjectParser.FreadStatementContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#freadStatement.
+    def exitFreadStatement(self, ctx:PLC_ProjectParser.FreadStatementContext):
+        pass
+
+
     # Enter a parse tree produced by PLC_ProjectParser#type.
     def enterType(self, ctx:PLC_ProjectParser.TypeContext):
         pass

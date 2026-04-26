@@ -69,6 +69,11 @@ class PLC_ProjectVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PLC_ProjectParser#freadStatement.
+    def visitFreadStatement(self, ctx:PLC_ProjectParser.FreadStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PLC_ProjectParser#type.
     def visitType(self, ctx:PLC_ProjectParser.TypeContext):
         return self.visitChildren(ctx)
