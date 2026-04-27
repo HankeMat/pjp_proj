@@ -258,6 +258,20 @@ fappend 8
 push S "Zapis do souboru 'vystup_testu.txt' hotov."
 print 1
 load soubor
+push S "Ahoj jenom testuju jestli vsechno funguje"
+push S " "
+push I 25
+push I 25
+add I
+push S " "
+push I 2
+push I 13
+push I 7
+add I
+mul I
+push S "\n"
+<< 7
+load soubor
 fread
 save obsah
 push S "Precteny obsah ze souboru:"

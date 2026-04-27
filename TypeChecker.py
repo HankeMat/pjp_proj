@@ -304,3 +304,13 @@ class TypeChecker(PLC_ProjectVisitor):
             return 'ERROR'
 
         return None
+    
+    def visitArrowsStatement(self, ctx):
+        if self.visit(ctx.expression()) != 'FI':
+            self.report_error(ctx, "Můžeš zapisovat pouze do souboru.")
+            return 'ERROR'
+        
+        for expr in ctx.inputList().expression():
+            self.visit(expr)
+        
+        return None

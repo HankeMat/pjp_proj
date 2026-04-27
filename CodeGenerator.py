@@ -277,3 +277,15 @@ class CodeGenerator(PLC_ProjectVisitor):
         self.add_instr(f"save {name}")
 
         return None
+    
+    def visitArrowsStatement(self, ctx):
+        # load the FILE variable onto stack
+        self.visit(ctx.expression())
+
+        # all vars push onto the stack
+        exprs = ctx.inputList().expression()
+        for expr in exprs:
+            self.visit(expr)
+
+        self.add_instr(f"<< {len(exprs) + 1}")
+        return None

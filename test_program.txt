@@ -79,6 +79,7 @@ FILE soubor;
 fopen soubor, "vystup_testu.txt";
 fappend soubor, "Vysledek testu: ", s2, ", i=", i, ", b2=", b2, "\n";
 write "Zapis do souboru 'vystup_testu.txt' hotov.";
+soubor << "Ahoj jenom testuju jestli vsechno funguje" << " " << 25+25 << " " << 2*(13+7) << "\n";
 
 fread soubor, obsah;
 write "Precteny obsah ze souboru:";

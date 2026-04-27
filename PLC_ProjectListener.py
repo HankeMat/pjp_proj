@@ -125,6 +125,15 @@ class PLC_ProjectListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PLC_ProjectParser#arrowsStatement.
+    def enterArrowsStatement(self, ctx:PLC_ProjectParser.ArrowsStatementContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#arrowsStatement.
+    def exitArrowsStatement(self, ctx:PLC_ProjectParser.ArrowsStatementContext):
+        pass
+
+
     # Enter a parse tree produced by PLC_ProjectParser#type.
     def enterType(self, ctx:PLC_ProjectParser.TypeContext):
         pass
@@ -149,6 +158,15 @@ class PLC_ProjectListener(ParseTreeListener):
 
     # Exit a parse tree produced by PLC_ProjectParser#exprList.
     def exitExprList(self, ctx:PLC_ProjectParser.ExprListContext):
+        pass
+
+
+    # Enter a parse tree produced by PLC_ProjectParser#inputList.
+    def enterInputList(self, ctx:PLC_ProjectParser.InputListContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#inputList.
+    def exitInputList(self, ctx:PLC_ProjectParser.InputListContext):
         pass
 
 

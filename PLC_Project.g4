@@ -19,6 +19,7 @@ statement
     | 'fopen' expression ',' expression ';'                             # fopenStatement
     | 'fappend' expression ',' exprList ';'                             # fappendStatement
     | 'fread' expression ',' ID ';'                                     # freadStatement
+    | expression '<<' inputList ';'                                     # arrowsStatement
     ;
 
 type
@@ -32,6 +33,8 @@ type
 idList : ID (',' ID)* ;
 
 exprList : expression (',' expression)* ;
+
+inputList : expression ('<<' expression)* ;
 
 expression
     : '!' expression                                    # logicalNotExpr
@@ -74,7 +77,9 @@ FLOAT_KW: 'float' ;
 BOOL_KW : 'bool' ;
 STRING_KW: 'string' ;
 FILE_KW : 'FILE' ;
-FOPEN : 'fopen' ;
+FOPEN   : 'fopen' ;
+FAPPEND : 'fappend' ;
+FREAD   : 'fread' ;
 
 // Literals
 BOOL    : 'true' | 'false' ;

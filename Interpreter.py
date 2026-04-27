@@ -65,6 +65,17 @@ class Interpreter:
                 f.write("".join(map(str, reversed(vals[:-1]))))
                 f.flush()
 
+            elif cmd == '<<':
+                count = int(parts[1])
+
+                vals = []
+                for _ in range(count):
+                    vals.append(self.stack.pop())
+
+                f = vals[count-1]
+                f.write("".join(map(str, reversed(vals[:-1]))))
+                f.flush()
+
             # reads the entire content of a file
             elif cmd == 'fread':
                 f = self.stack.pop()

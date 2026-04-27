@@ -74,6 +74,11 @@ class PLC_ProjectVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PLC_ProjectParser#arrowsStatement.
+    def visitArrowsStatement(self, ctx:PLC_ProjectParser.ArrowsStatementContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PLC_ProjectParser#type.
     def visitType(self, ctx:PLC_ProjectParser.TypeContext):
         return self.visitChildren(ctx)
@@ -86,6 +91,11 @@ class PLC_ProjectVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by PLC_ProjectParser#exprList.
     def visitExprList(self, ctx:PLC_ProjectParser.ExprListContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PLC_ProjectParser#inputList.
+    def visitInputList(self, ctx:PLC_ProjectParser.InputListContext):
         return self.visitChildren(ctx)
 
 
