@@ -71,8 +71,17 @@ write "Ternarni operator vysledek:", testTer;
 
 // 12. Test indexace stringu (indexingExpr, get_char)
 string ind;
-ind = "Abeceda";
-write "Pismena ze stringu 'Abeceda' na pozici 0 a ", i , ":", ind[0], " ", ind[i];
+ind = "AbecedaIdkTest";
+write "Pismena ze stringu 'AbecedaIdkTest' na pozici 0 a ", i , ":", ind[0], " ", ind[i];
+
+// indexace
+int a[10];
+a[0] = 35;
+a[1] = 12;
+a[2] = 44;
+a[3] = 61;
+a[4] = 109;
+write "Vypis pole na pozici ", i, ": ", a[i]; 
 
 // 13. Test FILE operaci (fopen, fappend, fread)
 FILE soubor;

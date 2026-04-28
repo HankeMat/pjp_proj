@@ -2,9 +2,10 @@ from PLC_ProjectVisitor import PLC_ProjectVisitor
 from PLC_ProjectParser import PLC_ProjectParser
 
 class CodeGenerator(PLC_ProjectVisitor):
-    def __init__(self, symbol_table, node_types):
-        self.symbol_table = symbol_table # Symbol table from typechecker: variable_name -> type (I, F, B, S)
+    def __init__(self, symbol_table, node_types, array_sizes):
+        self.symbol_table = symbol_table # Symbol table from typechecker: variable_name -> type (I, F, B, S, AI, AF, ...)
         self.node_types = node_types     # Data types of each expression
+        self.array_sizes = array_sizes   # Sizes of arrays
         self.instructions = []           # Instructions
         self.label_count = 0             # Counter for label (so ewach is unique)
 
@@ -18,12 +19,25 @@ class CodeGenerator(PLC_ProjectVisitor):
     def visitProgram(self, ctx):
         # Init of variables to defaults (0, 0.0, "", false)
         for name, var_type in self.symbol_table.items():
-            if var_type == 'I': self.add_instr("push I 0")
-            elif var_type == 'F': self.add_instr("push F 0.0")
-            elif var_type == 'B': self.add_instr("push B false")
-            elif var_type == 'S': self.add_instr('push S ""')
-            elif var_type == 'FI': self.add_instr('push FI 0')
-            self.add_instr(f"save {name}")
+            if var_type == 'I': 
+                self.add_instr("push I 0")
+                self.add_instr(f"save {name}")
+            elif var_type == 'F': 
+                self.add_instr("push F 0.0")
+                self.add_instr(f"save {name}")
+            elif var_type == 'B': 
+                self.add_instr("push B false")
+                self.add_instr(f"save {name}")
+            elif var_type == 'S': 
+                self.add_instr('push S ""')
+                self.add_instr(f"save {name}")
+            elif var_type == 'FI': 
+                self.add_instr('push FI 0')
+                self.add_instr(f"save {name}")
+            elif isinstance(var_type, str) and var_type.startswith('A'):
+                size = self.array_sizes[name]
+                self.add_instr(f"createarray {size}")
+                self.add_instr(f"save {name}")
         
         for stmt in ctx.statement():
             self.visit(stmt)
@@ -243,10 +257,34 @@ class CodeGenerator(PLC_ProjectVisitor):
         return None
     
     def visitIndexingExpr(self, ctx):
+        target_type = self.node_types[ctx.expression(0)]
+        if isinstance(target_type, str) and target_type.startswith('A'):
+            name = ctx.expression(0).getText()
+            self.visit(ctx.expression(1)) # index
+            self.add_instr(f"arrayload {name}")
+            return self.node_types[ctx]
+        
+        # fallback to get_char for strings
         self.visit(ctx.expression(0))
         self.visit(ctx.expression(1))
         self.add_instr("get_char")
         return 'S'
+
+    def visitArrayAssignmentExpr(self, ctx):
+        name = ctx.ID().getText()
+        var_type = self.symbol_table[name]
+        base_type = var_type[1:]
+        
+        self.visit(ctx.expression(0)) # index
+        self.visit_and_cast(ctx.expression(1), base_type) # value
+        
+        self.add_instr(f"arraysave {name}")
+        # For assignment expression, we should probably leave the value on stack
+        # but the user's example was a statement.
+        # Current AssignmentExpr does: save name, load name.
+        # For arrays, we could do: dup, arraysave name. But we don't have dup.
+        # Let's just do it like this for now.
+        return base_type
 
     def visitFopenStatement(self, ctx):
         self.visit(ctx.expression(1))

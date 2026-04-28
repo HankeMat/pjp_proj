@@ -8,7 +8,7 @@ program : (statement)* EOF ;
 
 statement
     : ';'                                                               # emptyStatement
-    | type idList ';'                                                   # declarationStatement
+    | type declaration (',' declaration)* ';'                           # declarationStatement
     | expression ';'                                                    # expressionStatement
     | 'read' idList ';'                                                 # readStatement
     | 'write' exprList ';'                                              # writeStatement
@@ -30,6 +30,8 @@ type
     | FILE_KW
     ;
 
+declaration : ID ('[' INT ']')? ;
+
 idList : ID (',' ID)* ;
 
 exprList : expression (',' expression)* ;
@@ -48,6 +50,7 @@ expression
     | expression '?' expression TER_ELSE expression     # ternaryExpr
     | expression '[' expression ']'                     # indexingExpr
     | <assoc=right> ID '=' expression                   # assignmentExpr
+    | <assoc=right> ID '[' expression ']' '=' expression # arrayAssignmentExpr
     | '(' expression ')'                                # parenthesisExpr
     | literal                                           # literalExpr
     | ID                                                # identifierExpr

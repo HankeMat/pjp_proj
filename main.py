@@ -39,7 +39,7 @@ def main():
             print(err)
         sys.exit(1)
     
-    generator = CodeGenerator(checker.symbol_table, checker.node_types)
+    generator = CodeGenerator(checker.symbol_table, checker.node_types, checker.array_sizes)
     generator.visit(tree)
     
     output_file = "generated_code.txt"

@@ -143,6 +143,15 @@ class PLC_ProjectListener(ParseTreeListener):
         pass
 
 
+    # Enter a parse tree produced by PLC_ProjectParser#declaration.
+    def enterDeclaration(self, ctx:PLC_ProjectParser.DeclarationContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#declaration.
+    def exitDeclaration(self, ctx:PLC_ProjectParser.DeclarationContext):
+        pass
+
+
     # Enter a parse tree produced by PLC_ProjectParser#idList.
     def enterIdList(self, ctx:PLC_ProjectParser.IdListContext):
         pass
@@ -248,6 +257,15 @@ class PLC_ProjectListener(ParseTreeListener):
 
     # Exit a parse tree produced by PLC_ProjectParser#ternaryExpr.
     def exitTernaryExpr(self, ctx:PLC_ProjectParser.TernaryExprContext):
+        pass
+
+
+    # Enter a parse tree produced by PLC_ProjectParser#arrayAssignmentExpr.
+    def enterArrayAssignmentExpr(self, ctx:PLC_ProjectParser.ArrayAssignmentExprContext):
+        pass
+
+    # Exit a parse tree produced by PLC_ProjectParser#arrayAssignmentExpr.
+    def exitArrayAssignmentExpr(self, ctx:PLC_ProjectParser.ArrayAssignmentExprContext):
         pass
 
 

@@ -84,6 +84,11 @@ class PLC_ProjectVisitor(ParseTreeVisitor):
         return self.visitChildren(ctx)
 
 
+    # Visit a parse tree produced by PLC_ProjectParser#declaration.
+    def visitDeclaration(self, ctx:PLC_ProjectParser.DeclarationContext):
+        return self.visitChildren(ctx)
+
+
     # Visit a parse tree produced by PLC_ProjectParser#idList.
     def visitIdList(self, ctx:PLC_ProjectParser.IdListContext):
         return self.visitChildren(ctx)
@@ -141,6 +146,11 @@ class PLC_ProjectVisitor(ParseTreeVisitor):
 
     # Visit a parse tree produced by PLC_ProjectParser#ternaryExpr.
     def visitTernaryExpr(self, ctx:PLC_ProjectParser.TernaryExprContext):
+        return self.visitChildren(ctx)
+
+
+    # Visit a parse tree produced by PLC_ProjectParser#arrayAssignmentExpr.
+    def visitArrayAssignmentExpr(self, ctx:PLC_ProjectParser.ArrayAssignmentExprContext):
         return self.visitChildren(ctx)
 
 

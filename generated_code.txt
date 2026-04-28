@@ -26,6 +26,8 @@ push F 0.0
 save testTer
 push S ""
 save ind
+createarray 10
+save a
 push FI 0
 save soubor
 push S "Zadejte cele cislo (i), desetinne (x), bool (b1) a retezec (s1):"
@@ -228,11 +230,11 @@ pop
 push S "Ternarni operator vysledek:"
 load testTer
 print 2
-push S "Abeceda"
+push S "AbecedaIdkTest"
 save ind
 load ind
 pop
-push S "Pismena ze stringu 'Abeceda' na pozici 0 a "
+push S "Pismena ze stringu 'AbecedaIdkTest' na pozici 0 a "
 load i
 push S ":"
 load ind
@@ -243,6 +245,32 @@ load ind
 load i
 get_char
 print 6
+push I 0
+push I 35
+arraysave a
+pop
+push I 1
+push I 12
+arraysave a
+pop
+push I 2
+push I 44
+arraysave a
+pop
+push I 3
+push I 61
+arraysave a
+pop
+push I 4
+push I 109
+arraysave a
+pop
+push S "Vypis pole na pozici "
+load i
+push S ": "
+load i
+arrayload a
+print 4
 push S "vystup_testu.txt"
 fopen
 save soubor

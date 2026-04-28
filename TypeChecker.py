@@ -5,6 +5,7 @@ class TypeChecker(PLC_ProjectVisitor):
     def __init__(self):
         self.symbol_table = {}  # Symbol table: variable_name -> type (I, F, B, S)
         self.node_types = {}    # Table for result data types of each expression (for generator)
+        self.array_sizes = {}   # Table for array sizes
         self.errors = []       
 
     def report_error(self, ctx, message):
@@ -17,17 +18,23 @@ class TypeChecker(PLC_ProjectVisitor):
             column = ctx.column
         self.errors.append(f"{line}:{column} - {message}")
 
-    # Variable declaration: (int a, b;)
+    # Variable declaration: (int a, b; int c[10];)
     def visitDeclarationStatement(self, ctx):
         var_type_str = ctx.type_().getText()
         type_map = {'int': 'I', 'float': 'F', 'bool': 'B', 'string': 'S', 'FILE': 'FI'}
-        var_type = type_map.get(var_type_str)
-        for id_node in ctx.idList().ID():
-            name = id_node.getText()
+        base_type = type_map.get(var_type_str)
+        for decl in ctx.declaration():
+            name = decl.ID().getText()
             if name in self.symbol_table:
-                self.report_error(id_node.getSymbol(), f"Proměnná '{name}' již byla deklarována.")
+                self.report_error(decl.ID().getSymbol(), f"Proměnná '{name}' již byla deklarována.")
             else:
-                self.symbol_table[name] = var_type
+                if decl.INT():
+                    # Array declaration
+                    size = int(decl.INT().getText())
+                    self.symbol_table[name] = 'A' + base_type
+                    self.array_sizes[name] = size
+                else:
+                    self.symbol_table[name] = base_type
         return None
 
     # Variable check
@@ -255,18 +262,60 @@ class TypeChecker(PLC_ProjectVisitor):
             self.visit(expr)
         return None
 
-    # Indexing (najkay_string[index])
+    # Indexing (najkay_string[index], pole[index])
     def visitIndexingExpr(self, ctx):
-        if self.visit(ctx.expression(0)) != 'S':
-            self.report_error(ctx, "Indexoval lze pouze 'string'.")
-            return 'ERROR'
+        target_type = self.visit(ctx.expression(0))
+        index_type = self.visit(ctx.expression(1))
         
-        if self.visit(ctx.expression(1)) != 'I':
+        if index_type != 'I':
             self.report_error(ctx, "Index musí být typu 'int'.")
             return 'ERROR'
+
+        if target_type == 'S':
+            self.node_types[ctx] = 'S'
+            return 'S'
+        elif isinstance(target_type, str) and target_type.startswith('A'):
+            res_type = target_type[1:]
+            self.node_types[ctx] = res_type
+            return res_type
+        else:
+            self.report_error(ctx, "Indexovat lze pouze 'string' nebo pole.")
+            return 'ERROR'
+
+    def visitArrayAssignmentExpr(self, ctx):
+        name = ctx.ID().getText()
+        if name not in self.symbol_table:
+            self.report_error(ctx.ID().getSymbol(), f"Proměnná '{name}' nebyla deklarována.")
+            target_type = 'ERROR'
+        else:
+            target_type = self.symbol_table[name]
         
-        self.node_types[ctx] = 'S' # vartim typ stringu o velikosti 1 proste
-        return 'S'
+        if target_type != 'ERROR' and not (isinstance(target_type, str) and target_type.startswith('A')):
+             self.report_error(ctx, f"Proměnná '{name}' není pole.")
+             target_type = 'ERROR'
+        
+        index_type = self.visit(ctx.expression(0))
+        if index_type != 'I':
+            self.report_error(ctx.expression(0), "Index musí být typu 'int'.")
+            
+        expr_type = self.visit(ctx.expression(1))
+        
+        if target_type == 'ERROR':
+            self.node_types[ctx] = 'ERROR'
+            return 'ERROR'
+            
+        base_type = target_type[1:]
+        if expr_type == base_type:
+             self.node_types[ctx] = base_type
+             return base_type
+        if base_type == 'F' and expr_type == 'I':
+             # Auto casting
+             self.node_types[ctx] = 'F'
+             return 'F'
+             
+        self.report_error(ctx, f"Nelze přiřadit typ '{expr_type}' do pole '{name}' typu '{base_type}[]'.")
+        self.node_types[ctx] = 'ERROR'
+        return 'ERROR'
     
     # fopen
     def visitFopenStatement(self, ctx):

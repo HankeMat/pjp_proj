@@ -95,6 +95,35 @@ class Interpreter:
             elif cmd == 'save':
                 name = parts[1]
                 self.variables[name] = self.stack.pop()
+
+            elif cmd == 'createarray':
+                size = int(parts[1])
+                # Initialize array with default values based on context if needed
+                # but for now, just 0s or empty. 
+                # Since we don't know the type here, we can just use 0.
+                self.stack.append([0] * size)
+
+            elif cmd == 'arrayload':
+                name = parts[1]
+                idx = self.stack.pop()
+                arr = self.variables[name]
+                if 0 <= idx < len(arr):
+                    self.stack.append(arr[idx])
+                else:
+                    print(f"Chyba: Index {idx} mimo rozsah pole {name} (velikost {len(arr)}).")
+                    sys.exit(1)
+
+            elif cmd == 'arraysave':
+                name = parts[1]
+                val = self.stack.pop() # hodnota
+                idx = self.stack.pop() # index
+                arr = self.variables[name]
+                if 0 <= idx < len(arr):
+                    arr[idx] = val
+                    self.stack.append(val) # Necháme hodnotu na zásobníku pro případné další použití/pop
+                else:
+                    print(f"Chyba: Index {idx} mimo rozsah pole {name} (velikost {len(arr)}).")
+                    sys.exit(1)
             
             # Binary operations (a + b, a - b, ...)
             elif cmd == 'add':
